@@ -423,6 +423,77 @@
     letter-spacing: 0.02em;
   }
 
+  /* ---------- Preguntas frecuentes ---------- */
+
+  .faq-list {
+    max-width: 760px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-question {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-question:hover { background: var(--panel); }
+
+  .faq-index {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--accent-key);
+    flex-shrink: 0;
+  }
+
+  .faq-question-text { flex: 1; }
+
+  .faq-toggle {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .faq-toggle::before,
+  .faq-toggle::after {
+    content: '';
+    position: absolute;
+    background: var(--accent-key);
+    top: 50%;
+    left: 50%;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-toggle::before { width: 12px; height: 2px; transform: translate(-50%, -50%); }
+  .faq-toggle::after { width: 2px; height: 12px; transform: translate(-50%, -50%); }
+
+  .faq-item[open] .faq-toggle::after { transform: translate(-50%, -50%) rotate(90deg) scale(0.001, 1); }
+
+  .faq-answer {
+    margin: 0;
+    padding: 0 24px 22px 62px;
+    color: var(--text-dim);
+    font-size: 14.5px;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+
   /* ---------- CTA final ---------- */
 
   .cta-panel {
@@ -539,6 +610,7 @@
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#preguntas">Preguntas</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
       <div class="nav-actions">
@@ -559,7 +631,8 @@
         <a href="#servicios" class="ruler-item" data-target="servicios"><span class="ri-index">01</span>Servicios</a>
         <a href="#portfolio" class="ruler-item" data-target="portfolio"><span class="ri-index">02</span>Portfolio</a>
         <a href="#sobre-mi" class="ruler-item" data-target="sobre-mi"><span class="ri-index">03</span>Sobre mí</a>
-        <a href="#contacto" class="ruler-item" data-target="contacto"><span class="ri-index">04</span>Contacto</a>
+        <a href="#preguntas" class="ruler-item" data-target="preguntas"><span class="ri-index">04</span>Preguntas</a>
+        <a href="#contacto" class="ruler-item" data-target="contacto"><span class="ri-index">05</span>Contacto</a>
       </div>
     </div>
   </nav>
@@ -607,7 +680,7 @@
     <div class="container">
       <div class="section-head">
         <h2>En qué te puedo ayudar</h2>
-        <span class="section-tag">01 / 04</span>
+        <span class="section-tag">01 / 05</span>
       </div>
       <div class="spec-grid">
         <article class="spec-item">
@@ -639,7 +712,7 @@
     <div class="container">
       <div class="section-head">
         <h2>Portfolio / Demos</h2>
-        <span class="section-tag">02 / 04</span>
+        <span class="section-tag">02 / 05</span>
       </div>
       <div class="spec-grid">
         <article class="spec-item">
@@ -682,7 +755,7 @@
     <div class="container">
       <div class="section-head">
         <h2>Sobre mí</h2>
-        <span class="section-tag">03 / 04</span>
+        <span class="section-tag">03 / 05</span>
       </div>
       <div class="testimonial-block">
         <div class="testimonial-rule" aria-hidden="true"></div>
@@ -694,13 +767,48 @@
     </div>
   </section>
 
+  <section id="preguntas">
+    <div class="container">
+      <div class="section-head">
+        <h2>Antes de escribirme</h2>
+        <span class="section-tag">04 / 05</span>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span class="faq-index mono">00</span>
+            <span class="faq-question-text">¿Cuánto tarda un proyecto?</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <p class="faq-answer">Depende de la complejidad de cada caso. Apenas hablamos y vemos qué necesitás, te paso un tiempo estimado concreto.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span class="faq-index mono">01</span>
+            <span class="faq-question-text">¿Y si el resultado no me convence?</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <p class="faq-answer">Lo ves funcionando antes de que se hable de pagar. Si no es lo que buscabas, lo ajustamos juntos o quedamos ahí, sin vueltas ni compromiso.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span class="faq-index mono">02</span>
+            <span class="faq-question-text">¿Hay que pagar algo por adelantado?</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <p class="faq-answer">Se charla según el proyecto puntual, pero la idea de base es siempre la misma: primero ves resultados concretos, no pagás a ciegas.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <section id="contacto">
     <div class="container">
       <div class="cta-panel">
         <h2>¿Tenés un proyecto o una idea para resolver?</h2>
         <p>Contame de qué se trata y te digo cómo lo encararía. Si tiene sentido, arrancamos mostrando un resultado concreto antes de hablar de precio.</p>
         <a class="btn btn-primary" href="https://wa.me/5491172819970" target="_blank" rel="noopener">Escribime por WhatsApp</a>
-        <p class="contact-alt">O escribime a <a href="mailto:empresarioborsani@gmail.com">empresarioborsani@gmail.com</a></p>
+        <p class="contact-alt">O escribime a <a id="emailLink" href="#" rel="nofollow"></a></p>
       </div>
     </div>
   </section>
@@ -747,6 +855,13 @@
       updateClock();
       setInterval(updateClock, 1000);
 
+      var emailLink = document.getElementById('emailLink');
+      if (emailLink) {
+        var email = atob('ZW1wcmVzYXJpb2JvcnNhbmlAZ21haWwuY29t');
+        emailLink.href = 'mailto:' + email;
+        emailLink.textContent = email;
+      }
+
       var nav = document.getElementById('nav');
       var toggle = document.getElementById('navToggle');
       toggle.addEventListener('click', function () {
@@ -760,7 +875,7 @@
         });
       });
 
-      var sectionIds = ['inicio', 'servicios', 'portfolio', 'sobre-mi', 'contacto'];
+      var sectionIds = ['inicio', 'servicios', 'portfolio', 'sobre-mi', 'preguntas', 'contacto'];
       var sections = sectionIds.map(function (id) { return document.getElementById(id); });
       var rulerItems = document.querySelectorAll('.ruler-item');
       var visible = {};
