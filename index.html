@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Franco_B- — Desarrollo web, IA y automatizaciones en CABA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Editar estos tokens para re-marcar el sitio con otra identidad */
+  :root {
+    --ink: #FFFFFF;
+    --panel: #F3F6FA;
+    --well: #E9EEF3;
+    --line: rgba(18, 30, 45, 0.12);
+    --line-strong: rgba(18, 30, 45, 0.22);
+    --text: #12151C;
+    --text-dim: #57616F;
+    --accent-start: #0080FF;
+    --accent-end: #00D4FF;
+    --accent-key: #0077CC;
+    --gradient: linear-gradient(120deg, var(--accent-start), var(--accent-end));
+    --font-display: 'Poppins', 'Segoe UI', sans-serif;
+    --font-body: 'Poppins', 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+    --radius: 4px;
+    --container: 1160px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  p { margin: 0; }
+
+  .mono { font-family: var(--font-mono); }
+
+  .container {
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .gradient-text {
+    color: var(--accent-key);
+  }
+
+  /* ---------- Nav + regla de índice ---------- */
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.005em;
+  }
+
+  .brand-mark { flex-shrink: 0; }
+
+  .brand-lt { color: var(--accent-key); }
+
+  .nav-links {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dim);
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a:focus-visible { color: var(--text); }
+
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    width: 38px;
+    height: 38px;
+    color: var(--text);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ruler {
+    border-top: 1px solid var(--line);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .ruler::-webkit-scrollbar { display: none; }
+
+  .ruler-track {
+    display: flex;
+    gap: 2px;
+  }
+
+  .ruler-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 16px 10px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .ruler-item .ri-index { color: var(--text-dim); opacity: 0.6; }
+
+  .ruler-item:hover { color: var(--text); }
+
+  .ruler-item.is-active {
+    color: var(--text);
+    border-bottom-color: var(--accent-key);
+  }
+
+  .ruler-item.is-active .ri-index { color: var(--accent-key); opacity: 1; }
+
+  /* ---------- Botones ---------- */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 22px;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .btn:focus-visible { outline: 2px solid var(--accent-key); outline-offset: 2px; }
+
+  .btn-primary { background: var(--gradient); color: #FFFFFF; }
+  .btn-primary:hover { box-shadow: 0 8px 24px rgba(0, 145, 255, 0.3); transform: translateY(-1px); }
+
+  .btn-outline { background: transparent; border-color: var(--line-strong); color: var(--text); }
+  .btn-outline:hover { border-color: var(--accent-key); color: var(--accent-key); }
+
+  .btn-sm { padding: 9px 18px; font-size: 13px; }
+
+  /* ---------- Hero ---------- */
+
+  .hero { padding: 72px 0 96px; }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .hero-copy { display: flex; flex-direction: column; gap: 24px; }
+
+  .hero h1 {
+    font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+    letter-spacing: -0.02em;
+    max-width: 13ch;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text-dim);
+    max-width: 46ch;
+  }
+
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ---------- Instrumento ---------- */
+
+  .instrument-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .instrument { position: relative; width: 220px; height: 220px; }
+
+  .instrument-dial { position: absolute; inset: 0; }
+
+  .dial-ring { fill: none; stroke: var(--line-strong); stroke-width: 1; }
+
+  .dial-cross { stroke: var(--text-dim); stroke-width: 1; opacity: 0.5; }
+
+  .instrument-sweep {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent 0deg 300deg, var(--accent-start) 328deg, var(--accent-key) 345deg, transparent 360deg);
+    -webkit-mask-image: radial-gradient(circle, transparent 61%, #000 63% 67%, transparent 69%);
+    mask-image: radial-gradient(circle, transparent 61%, #000 63% 67%, transparent 69%);
+    animation: spin 9s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .instrument-sweep { animation: none; }
+    .status-dot { animation: none; }
+  }
+
+  .readout {
+    width: 100%;
+    max-width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+
+  .readout-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+
+  .readout-label {
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+  }
+
+  .readout-value {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-key);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  /* ---------- Secciones ---------- */
+
+  section { padding: 88px 0; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 24px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+    letter-spacing: -0.01em;
+  }
+
+  .section-head .section-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .section-note {
+    margin: 32px auto 0;
+    max-width: 52ch;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 22px 32px;
+    border-radius: 8px;
+  }
+
+  .note-highlight {
+    color: var(--accent-key);
+    font-weight: 600;
+  }
+
+  /* ---------- Spec sheet (servicios / portfolio) ---------- */
+
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--line);
+  }
+
+  .spec-item {
+    padding: 32px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: background 0.2s ease;
+  }
+
+  .spec-item:hover { background: var(--panel); }
+
+  .spec-item:nth-child(2n) { border-right: none; }
+  .spec-item:nth-child(n+3) { border-bottom: none; }
+
+  .spec-index {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent-key);
+  }
+
+  .spec-item h3 { font-size: 17px; }
+
+  .spec-item p { font-size: 14.5px; color: var(--text-dim); line-height: 1.6; }
+
+  .demo-media {
+    aspect-ratio: 16 / 10;
+    background: var(--well);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .demo-media img,
+  .demo-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ---------- Sobre mí ---------- */
+
+  .testimonial-block {
+    display: flex;
+    gap: 28px;
+    max-width: 760px;
+  }
+
+  .testimonial-rule {
+    flex-shrink: 0;
+    width: 3px;
+    background: var(--gradient);
+    border-radius: 2px;
+  }
+
+  .about-text {
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.65;
+    margin: 0 0 20px;
+  }
+
+  .about-stack {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- CTA final ---------- */
+
+  .cta-panel {
+    background: var(--well);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(18, 30, 45, 0.1);
+    padding: 56px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .cta-panel h2 {
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+  }
+
+  .cta-panel p { color: var(--text-dim); max-width: 46ch; }
+
+  .contact-alt {
+    font-size: 13.5px;
+    color: var(--text-dim);
+  }
+
+  .contact-alt a {
+    color: var(--text);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .contact-alt a:hover { color: var(--accent-key); border-color: var(--accent-key); }
+
+  /* ---------- Footer ---------- */
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0; }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-links { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-dim);
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover { color: var(--text); }
+
+  .footer-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero h1 { max-width: none; }
+    .instrument-col { align-items: flex-start; }
+    .instrument { margin: 0 auto; }
+    .readout { max-width: none; }
+  }
+
+  @media (max-width: 720px) {
+    .nav-links, .nav-actions .btn-outline { display: none; }
+    .nav-toggle { display: flex; }
+    section { padding: 64px 0; }
+    .spec-grid { grid-template-columns: 1fr; }
+    .spec-item { border-right: none !important; }
+    .spec-item:not(:last-child) { border-bottom: 1px solid var(--line) !important; }
+    .section-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  }
+
+  .nav.menu-open .nav-links {
+    display: flex;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: var(--ink);
+    border-bottom: 1px solid var(--line);
+    padding: 20px 24px;
+    gap: 16px;
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="container nav-top">
+      <a href="#inicio" class="brand">
+        <svg class="brand-mark" width="30" height="21" viewBox="0 0 150 105" fill="none">
+          <path d="M2 100 L40 30 L78 100 Z" fill="var(--accent-start)"/>
+          <path d="M46 100 L75 8 L104 100 Z" fill="url(#g1)"/>
+          <path d="M72 100 L110 30 L148 100 Z" fill="var(--accent-end)"/>
+          <defs>
+            <linearGradient id="g1" x1="46" y1="100" x2="104" y2="8">
+              <stop offset="0" stop-color="#0080FF"/>
+              <stop offset="1" stop-color="#00D4FF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="brand-lt">&lt;</span>Franco_B-<span class="brand-lt">&gt;</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#portfolio" class="btn btn-outline btn-sm">Ver portfolio</a>
+        <a href="https://wa.me/5491172819970" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Escribime</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="1" y1="4" x2="15" y2="4"/>
+            <line x1="1" y1="8" x2="15" y2="8"/>
+            <line x1="1" y1="12" x2="15" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="ruler">
+      <div class="container ruler-track" id="rulerTrack">
+        <a href="#inicio" class="ruler-item is-active" data-target="inicio"><span class="ri-index">00</span>Inicio</a>
+        <a href="#servicios" class="ruler-item" data-target="servicios"><span class="ri-index">01</span>Servicios</a>
+        <a href="#portfolio" class="ruler-item" data-target="portfolio"><span class="ri-index">02</span>Portfolio</a>
+        <a href="#sobre-mi" class="ruler-item" data-target="sobre-mi"><span class="ri-index">03</span>Sobre mí</a>
+        <a href="#contacto" class="ruler-item" data-target="contacto"><span class="ri-index">04</span>Contacto</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="inicio">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <h1>Resuelvo con <span class="gradient-text">código e IA</span> lo que hoy hacés a mano.</h1>
+        <p class="hero-sub">Soy Franco_B-, freelancer en CABA. Armo landings, catálogos digitales, bots de WhatsApp y automatizaciones con IA — a medida, sin plantillas genéricas ni depender de terceros.</p>
+        <div class="hero-cta">
+          <a href="https://wa.me/5491172819970" class="btn btn-primary" target="_blank" rel="noopener">Hablemos por WhatsApp</a>
+          <a href="#portfolio" class="btn btn-outline">Ver portfolio</a>
+        </div>
+      </div>
+      <div class="instrument-col">
+        <div class="instrument" aria-hidden="true">
+          <svg class="instrument-dial" viewBox="0 0 220 220">
+            <circle cx="110" cy="110" r="98" class="dial-ring"/>
+            <circle cx="110" cy="110" r="70" class="dial-ring"/>
+            <line x1="110" y1="98" x2="110" y2="122" class="dial-cross"/>
+            <line x1="98" y1="110" x2="122" y2="110" class="dial-cross"/>
+            <g id="dialTicks"></g>
+          </svg>
+          <div class="instrument-sweep"></div>
+        </div>
+        <div class="readout">
+          <div class="readout-row">
+            <span class="readout-label">HORA LOCAL</span>
+            <span class="readout-value" id="clock">00:00:00</span>
+          </div>
+          <div class="readout-row">
+            <span class="readout-label">ESTADO</span>
+            <span class="readout-value"><span class="status-dot"></span>DISPONIBLE</span>
+          </div>
+          <div class="readout-row">
+            <span class="readout-label">BASE</span>
+            <span class="readout-value">CABA, AR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="servicios">
+    <div class="container">
+      <div class="section-head">
+        <h2>En qué te puedo ayudar</h2>
+        <span class="section-tag">01 / 04</span>
+      </div>
+      <div class="spec-grid">
+        <article class="spec-item">
+          <span class="spec-index mono">00</span>
+          <h3>Landing Page</h3>
+          <p>Una página que carga rápido, se ve bien en el celular y muestra tu negocio como corresponde.</p>
+        </article>
+        <article class="spec-item">
+          <span class="spec-index mono">01</span>
+          <h3>Catálogo / Menú digital con QR</h3>
+          <p>Un catálogo o menú con QR que actualizás vos mismo, sin depender de nadie para cambiar un precio.</p>
+        </article>
+        <article class="spec-item">
+          <span class="spec-index mono">02</span>
+          <h3>Bot de WhatsApp con IA</h3>
+          <p>Responde consultas, toma pedidos o agenda turnos las 24 horas, con el tono de tu marca.</p>
+        </article>
+        <article class="spec-item">
+          <span class="spec-index mono">03</span>
+          <h3>Auto-respuesta de reseñas con IA</h3>
+          <p>Contesta cada reseña de Google o redes en minutos, con un tono que suena a vos, no a plantilla genérica.</p>
+        </article>
+      </div>
+      <p class="section-note">Sin <span class="note-highlight">paquetes cerrados</span> ni <span class="note-highlight">precios fijos</span>: cada proyecto es distinto y el precio <span class="note-highlight">se charla</span> después de ver qué necesitás.</p>
+    </div>
+  </section>
+
+  <section id="portfolio">
+    <div class="container">
+      <div class="section-head">
+        <h2>Portfolio / Demos</h2>
+        <span class="section-tag">02 / 04</span>
+      </div>
+      <div class="spec-grid">
+        <article class="spec-item">
+          <div class="demo-media">
+            <img src="assets/demo-landing-dulce-atelier.gif" alt="Demo: Landing Dulce Atelier" loading="lazy">
+          </div>
+          <span class="spec-index mono">00</span>
+          <h3>Landing "Dulce Atelier"</h3>
+          <p>Landing para una pastelería: catálogo visual, botón directo a WhatsApp y carga rápida en el celular.</p>
+        </article>
+        <article class="spec-item">
+          <div class="demo-media">
+            <video src="assets/demo-catalogo-qr.mp4" autoplay muted loop playsinline></video>
+          </div>
+          <span class="spec-index mono">01</span>
+          <h3>Catálogo / Menú QR</h3>
+          <p>El cliente escanea con la cámara y ve el menú al instante, sin instalar nada. Vos lo actualizás cuando quieras.</p>
+        </article>
+        <article class="spec-item">
+          <div class="demo-media">
+            <video src="assets/demo-bot-whatsapp.mp4" autoplay muted loop playsinline></video>
+          </div>
+          <span class="spec-index mono">02</span>
+          <h3>Bot de WhatsApp con IA</h3>
+          <p>Entiende la consulta, responde y deriva a una persona si hace falta. Sin horario de atención.</p>
+        </article>
+        <article class="spec-item">
+          <div class="demo-media">
+            <video src="assets/demo-analizador-resenas.mp4" autoplay muted loop playsinline></video>
+          </div>
+          <span class="spec-index mono">03</span>
+          <h3>Analizador de Reseñas con IA</h3>
+          <p>Lee las reseñas de Google o redes, arma una respuesta con el tono del negocio y la deja lista para publicar.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre-mi">
+    <div class="container">
+      <div class="section-head">
+        <h2>Sobre mí</h2>
+        <span class="section-tag">03 / 04</span>
+      </div>
+      <div class="testimonial-block">
+        <div class="testimonial-rule" aria-hidden="true"></div>
+        <div>
+          <p class="about-text">Tu proyecto pasa por una sola persona, no por una cadena de gente que se pasa el mensaje. Eso significa respuestas más rápidas y menos vueltas. Primero me aseguro de entender bien qué necesitás. Antes de cobrarte nada, te muestro el resultado final.</p>
+          <p class="about-stack mono">Python / Java / JavaScript</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="container">
+      <div class="cta-panel">
+        <h2>¿Tenés un proyecto o una idea para resolver?</h2>
+        <p>Contame de qué se trata y te digo cómo lo encararía. Si tiene sentido, arrancamos mostrando un resultado concreto antes de hablar de precio.</p>
+        <a class="btn btn-primary" href="https://wa.me/5491172819970" target="_blank" rel="noopener">Escribime por WhatsApp</a>
+        <p class="contact-alt">O escribime a <a href="mailto:empresarioborsani@gmail.com">empresarioborsani@gmail.com</a></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <span class="footer-tag">Franco_B- — CABA, Argentina</span>
+      <ul class="footer-links">
+        <li><a href="https://www.instagram.com/soyfranco_b?stkn=aHR5M3VmZTJzamx3&utm_source=qr" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
+      <span class="footer-tag">© 2026</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var svgNS = 'http://www.w3.org/2000/svg';
+      var ticks = document.getElementById('dialTicks');
+      var cx = 110, cy = 110, rOuter = 98, majorLen = 12, minorLen = 6;
+      for (var i = 0; i < 24; i++) {
+        var angle = (i * 15) * Math.PI / 180;
+        var isMajor = i % 2 === 0;
+        var len = isMajor ? majorLen : minorLen;
+        var x1 = cx + (rOuter - len) * Math.sin(angle);
+        var y1 = cy - (rOuter - len) * Math.cos(angle);
+        var x2 = cx + rOuter * Math.sin(angle);
+        var y2 = cy - rOuter * Math.cos(angle);
+        var line = document.createElementNS(svgNS, 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.style.stroke = isMajor ? 'var(--text-dim)' : 'var(--line-strong)';
+        line.style.strokeWidth = isMajor ? '1.4' : '1';
+        ticks.appendChild(line);
+      }
+
+      var clock = document.getElementById('clock');
+      function updateClock() {
+        var now = new Date();
+        var pad = function (n) { return String(n).padStart(2, '0'); };
+        clock.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      var nav = document.getElementById('nav');
+      var toggle = document.getElementById('navToggle');
+      toggle.addEventListener('click', function () {
+        var isOpen = nav.classList.toggle('menu-open');
+        toggle.setAttribute('aria-expanded', String(isOpen));
+      });
+      nav.querySelectorAll('.nav-links a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          nav.classList.remove('menu-open');
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      var sectionIds = ['inicio', 'servicios', 'portfolio', 'sobre-mi', 'contacto'];
+      var sections = sectionIds.map(function (id) { return document.getElementById(id); });
+      var rulerItems = document.querySelectorAll('.ruler-item');
+      var visible = {};
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            visible[entry.target.id] = entry.isIntersecting;
+          });
+          var activeId = sectionIds.find(function (id) { return visible[id]; }) || sectionIds[0];
+          rulerItems.forEach(function (item) {
+            item.classList.toggle('is-active', item.dataset.target === activeId);
+          });
+        }, { rootMargin: '-40% 0px -55% 0px' });
+        sections.forEach(function (s) { observer.observe(s); });
+      }
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: franco-b-sitio
+    env: static
+    buildCommand: ""
+    staticPublishPath: ./
